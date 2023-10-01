@@ -10,6 +10,7 @@ import { State, process } from '@progress/kendo-data-query';
 
 import { map } from 'rxjs/operators';
 import { EmlPredalMapa } from './eml-predal-mapa';
+import Comparator from './model';
 
 @Component({
   selector: 'my-app',
@@ -46,13 +47,13 @@ import { EmlPredalMapa } from './eml-predal-mapa';
     `,
 })
 export class AppComponent implements OnInit {
-  public view: Observable<GridDataResult>;
+  // public view: Observable<GridDataResult>;
   public gridState: State = {
     sort: [],
     skip: 0,
     take: 10,
   };
-  public emlMapePredalaData: EmlPredalMapa[] = [
+  public emlMapePredalaSourceData: EmlPredalMapa[] = [
     {
       IdEpm: 1,
       IdEmp: 1,
@@ -82,13 +83,19 @@ export class AppComponent implements OnInit {
       Action: 'None',
     },
   ];
+  public emlMapePredalaData: EmlPredalMapa[] = [];
 
   public editDataItem: EmlPredalMapa;
   public isNew: boolean;
 
   constructor() {}
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.emlMapePredalaData = Object.assign(
+      this.emlMapePredalaData,
+      this.emlMapePredalaSourceData
+    );
+  }
 
   public onStateChange(state: State): void {
     this.gridState = state;
@@ -96,6 +103,7 @@ export class AppComponent implements OnInit {
 
   public addHandler(): void {
     this.editDataItem = new EmlPredalMapa();
+    this.editDataItem.Action = 'New';
     this.isNew = true;
   }
 
@@ -129,9 +137,21 @@ export class AppComponent implements OnInit {
       this.emlMapePredalaData.push(product);
     } else {
       //edit mode
+      var orgiItem = this.emlMapePredalaSourceData.find(
+        (x) => x.IdEpm === product.IdEpm && x.IdEmp === product.IdEmp
+      );
+
+      if (EmlPredalMapa.equalWithoutAction(orgiItem, product) === true) {
+        product.Action = 'None';
+      } else {
+        console.log(orgiItem);
+        console.log(product);
+      }
+
       let index = this.emlMapePredalaData.findIndex(
         (item) => item.IdEmp === product.IdEmp && item.IdEpm === product.IdEpm
       );
+
       this.emlMapePredalaData[index] = product;
       this.emlMapePredalaData = Object.assign([], this.emlMapePredalaData);
 

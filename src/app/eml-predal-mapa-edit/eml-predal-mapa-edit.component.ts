@@ -20,15 +20,16 @@ export class EmlPredalMapaEditComponent {
 
   @Input() public isNew = false;
 
+  @Input() public emailFolderList: Array<EmlPredalMapa>;
+
   @Input() public set model(model: EmlPredalMapa) {
     if (model?.Action === 'None') {
       model.Action = 'Edit';
     }
-
     this.sourceData = model;
     this.editForm.reset(model);
     // toggle the Dialog visibility
-    this.active = model !== undefined;
+    this.active = !!model;
   }
 
   @Output() cancel: EventEmitter<undefined> = new EventEmitter();

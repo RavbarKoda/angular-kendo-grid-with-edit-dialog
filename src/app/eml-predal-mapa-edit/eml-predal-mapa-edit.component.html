@@ -4,6 +4,7 @@
   </kendo-dialog-titlebar>
 
   <form novalidate class="k-form k-form-md" [formGroup]="editForm">
+    <span>{{ isNew }}</span>
     <kendo-formfield>
       <label>Ime mape</label>
       <input
@@ -35,8 +36,8 @@
       [disabled]="!editForm.valid"
       (click)="onSave($event)"
     >
-      Save
+      {{ !!isNew ? 'Dodaj' : 'Spremeni' }}
     </button>
-    <button kendoButton (click)="onCancel($event)">Cancel</button>
+    <button kendoButton (click)="onCancel($event)">Prekliči</button>
   </kendo-dialog-actions>
 </kendo-dialog>
