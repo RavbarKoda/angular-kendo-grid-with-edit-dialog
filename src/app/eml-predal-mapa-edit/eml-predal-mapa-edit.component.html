@@ -1,0 +1,42 @@
+<kendo-dialog *ngIf="active" [width]="300" [height]="450" (close)="closeForm()">
+  <kendo-dialog-titlebar>
+    {{ isNew ? 'Nova mapa predala' : 'Uredi mapo predala' }}
+  </kendo-dialog-titlebar>
+
+  <form novalidate class="k-form k-form-md" [formGroup]="editForm">
+    <kendo-formfield>
+      <label>Ime mape</label>
+      <input
+        kendoTextBox
+        #ImeMape
+        placeholder="Vnesi ime mape"
+        formControlName="ImeMape"
+      />
+      <kendo-formhint>Vnesi ime mape</kendo-formhint>
+      <kendo-formerror>Napaka: Ime mape predala je obvezno</kendo-formerror>
+    </kendo-formfield>
+
+    <kendo-formfield>
+      <label>Naziv mape</label>
+      <input
+        kendoTextBox
+        #NazivMape
+        placeholder="Vnesi ime mape"
+        formControlName="NazivMape"
+      />
+      <kendo-formhint>Vnesi naziv mape</kendo-formhint>
+      <kendo-formerror>Napaka: Naziv mape predala je obvezno</kendo-formerror>
+    </kendo-formfield>
+  </form>
+  <kendo-dialog-actions layout="start">
+    <button
+      kendoButton
+      themeColor="primary"
+      [disabled]="!editForm.valid"
+      (click)="onSave($event)"
+    >
+      Save
+    </button>
+    <button kendoButton (click)="onCancel($event)">Cancel</button>
+  </kendo-dialog-actions>
+</kendo-dialog>
