@@ -90,7 +90,9 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {}
 
-  public onStateChange(state: State): void {}
+  public onStateChange(state: State): void {
+    this.gridState = state;
+  }
 
   public addHandler(): void {
     this.editDataItem = new EmlPredalMapa();
