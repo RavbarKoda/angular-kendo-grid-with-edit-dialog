@@ -4,8 +4,8 @@ import { Product } from './model';
 import { SVGIcon, saveIcon, cancelIcon } from '@progress/kendo-svg-icons';
 
 @Component({
-    selector: 'kendo-grid-edit-form',
-    template: `
+  selector: 'kendo-grid-edit-form',
+  template: `
         <kendo-dialog *ngIf="active" [width]="300" [height]="450" (close)="closeForm()">
             <kendo-dialog-titlebar>
                 {{ isNew ? 'Add new product' : 'Edit product' }}
@@ -92,45 +92,51 @@ import { SVGIcon, saveIcon, cancelIcon } from '@progress/kendo-svg-icons';
                 >Cancel</button>
             </kendo-dialog-actions>
         </kendo-dialog>
-    `
+    `,
 })
 export class GridEditFormComponent {
-    public saveIcon: SVGIcon = saveIcon;
-    public cancelIcon: SVGIcon = cancelIcon;
+  public saveIcon: SVGIcon = saveIcon;
+  public cancelIcon: SVGIcon = cancelIcon;
 
-    public active = false;
-    public editForm: FormGroup = new FormGroup({
-        ProductID: new FormControl(),
-        ProductName: new FormControl('', Validators.required),
-        UnitPrice: new FormControl(0),
-        UnitsInStock: new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[0-9]{1,3}')])),
-        Discontinued: new FormControl(false)
-    });
+  public active = false;
+  public editForm: FormGroup = new FormGroup({
+    ProductID: new FormControl(),
+    ProductName: new FormControl('', Validators.required),
+    UnitPrice: new FormControl(0),
+    UnitsInStock: new FormControl(
+      '',
+      Validators.compose([
+        Validators.required,
+        Validators.pattern('^[0-9]{1,3}'),
+      ])
+    ),
+    Discontinued: new FormControl(false),
+  });
 
-    @Input() public isNew = false;
+  @Input() public isNew = false;
 
-    @Input() public set model(product: Product) {
-        this.editForm.reset(product);
-        // toggle the Dialog visibility
-        this.active = product !== undefined;
-    }
+  @Input() public set model(product: Product) {
+    this.editForm.reset(product);
+    // toggle the Dialog visibility
+    this.active = product !== undefined;
+  }
 
-    @Output() cancel: EventEmitter<undefined> = new EventEmitter();
-    @Output() save: EventEmitter<Product> = new EventEmitter();
+  @Output() cancel: EventEmitter<undefined> = new EventEmitter();
+  @Output() save: EventEmitter<Product> = new EventEmitter();
 
-    public onSave(e: PointerEvent): void {
-        e.preventDefault();
-        this.save.emit(this.editForm.value);
-        this.active = false;
-    }
+  public onSave(e: PointerEvent): void {
+    e.preventDefault();
+    this.save.emit(this.editForm.value);
+    this.active = false;
+  }
 
-    public onCancel(e: PointerEvent): void {
-        e.preventDefault();
-        this.closeForm();
-    }
+  public onCancel(e: PointerEvent): void {
+    e.preventDefault();
+    this.closeForm();
+  }
 
-    public closeForm(): void {
-        this.active = false;
-        this.cancel.emit();
-    }
+  public closeForm(): void {
+    this.active = false;
+    this.cancel.emit();
+  }
 }

@@ -1,0 +1,46 @@
+<kendo-grid
+  [data]="emlPredalaData"
+  [pageSize]="gridState.take"
+  [skip]="gridState.skip"
+  [sort]="gridState.sort"
+  [pageable]="true"
+  [sortable]="true"
+  (dataStateChange)="onStateChange($event)"
+  (edit)="editHandler($event)"
+  (remove)="removeHandler($event)"
+  (add)="addHandler()"
+>
+  <ng-template kendoGridToolbarTemplate>
+    <button kendoGridAddCommand>Dodaj</button>
+  </ng-template>
+  <kendo-grid-column
+    field="IdEmp"
+    title="ID EMP"
+    [width]="80"
+  ></kendo-grid-column>
+  <kendo-grid-column field="ImePredala" title="Ime predala"></kendo-grid-column>
+  <kendo-grid-column
+    field="NaslovPredala"
+    title="Naslov predala"
+  ></kendo-grid-column>
+  <kendo-grid-column field="Debug" title="Debug"></kendo-grid-column>
+  <kendo-grid-column
+    field="VrstaPredala"
+    title="VrstaPredala"
+  ></kendo-grid-column>
+  <kendo-grid-column
+    field="Action"
+    title="Action"
+    [width]="80"
+  ></kendo-grid-column>
+  <kendo-grid-command-column title="command" [width]="150">
+    <ng-template kendoGridCellTemplate>
+      <button kendoGridEditCommand [primary]="true">Uredi</button>
+      <button kendoGridRemoveCommand [primary]="true">Odstrani</button>
+    </ng-template>
+  </kendo-grid-command-column>
+</kendo-grid>
+<app-eml-predal-edit
+  [model]="editDataItem"
+  [isNew]="isNew"
+></app-eml-predal-edit>

@@ -1,0 +1,43 @@
+<div *ngIf="active" class="titlebar">
+  <div>
+    {{ isNew ? 'Nov e-mail predal' : 'Uredi e-mail predal' }}
+  </div>
+  <form novalidate class="k-form k-form-md" [formGroup]="editPredalForm">
+    <span>{{ isNew }}</span>
+    <kendo-formfield>
+      <label>Ime predala</label>
+      <input
+        kendoTextBox
+        #ImeMape
+        placeholder="Vnesi ime predala"
+        formControlName="ImePredala"
+      />
+      <kendo-formhint>Vnesi ime predala</kendo-formhint>
+      <kendo-formerror>Napaka: Ime predala je obvezen</kendo-formerror>
+    </kendo-formfield>
+
+    <kendo-formfield>
+      <label>Naslov predala</label>
+      <input
+        kendoTextBox
+        #NazivMape
+        placeholder="Vnesi naslov predala"
+        formControlName="NaslovPredala"
+      />
+      <kendo-formhint>Vnesi naslov predala</kendo-formhint>
+      <kendo-formerror>Napaka: Nalov predala je obvezen</kendo-formerror>
+    </kendo-formfield>
+  </form>
+  <my-app></my-app>
+  <div>
+    <button
+      kendoButton
+      themeColor="primary"
+      [disabled]="!editPredalForm.valid"
+      (click)="onSave($event)"
+    >
+      {{ !!isNew ? 'Dodaj' : 'Spremeni' }}
+    </button>
+    <button kendoButton (click)="onCancel($event)">Prekliči</button>
+  </div>
+</div>

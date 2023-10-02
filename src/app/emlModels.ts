@@ -19,3 +19,12 @@ export class EmlPredalMapa extends ListItemAction {
     return isEqual;
   }
 }
+
+export class EmlPredal extends ListItemAction {
+  public IdEmp: number = -1;
+  public ImePredala: string = '';
+  public NaslovPredala: string = '';
+  public Debug: string = '';
+  public VrstaPredala: number = 1;
+  public Mape: Array<EmlPredalMapa>;
+}

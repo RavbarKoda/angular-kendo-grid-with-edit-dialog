@@ -9,13 +9,12 @@ import {
 import { State, process } from '@progress/kendo-data-query';
 
 import { map } from 'rxjs/operators';
-import { EmlPredalMapa } from './eml-predal-mapa';
+import { EmlPredalMapa } from './emlModels';
 import Comparator from './model';
 
 @Component({
   selector: 'my-app',
   template: `
-  <button (click)="addFake()">Add dummy</button>
         <kendo-grid
             [data]="emlMapePredalaData"
             [pageSize]="gridState.take"
@@ -112,23 +111,34 @@ export class AppComponent implements OnInit {
     this.isNew = false;
   }
 
+  public removeHandler(args: RemoveEvent): void {
+    console.log(args);
+    //if you want to delete new record
+    if (args.dataItem.Action === 'New') {
+      this.emlMapePredalaData.forEach((item: EmlPredalMapa, index) => {
+        if (
+          item.IdEmp === args.dataItem.IdEmp &&
+          item.IdEpm === args.dataItem.IdEpm
+        ) {
+          this.emlMapePredalaData.splice(index, 1);
+        }
+      });
+    } else {
+      args.dataItem.Action = 'Delete';
+      let index = this.emlMapePredalaData.findIndex(
+        (item) =>
+          item.IdEmp === args.dataItem.IdEmp &&
+          item.IdEpm === args.dataItem.IdEpm
+      );
+      this.emlMapePredalaData[index] = args.dataItem;
+      this.emlMapePredalaData = Object.assign([], this.emlMapePredalaData);
+    }
+  }
+
   public cancelHandler(): void {
     this.editDataItem = undefined;
   }
 
-  public addFake(): void {
-    console.log(
-      'Dodajam fake objekt dolžina: ' + this.emlMapePredalaData.length
-    );
-    this.emlMapePredalaData.push({
-      IdEpm: -1,
-      IdEmp: -2,
-      ImeMape: 'Fake@gmail.com',
-      NazivMape: 'Test3@gmail.com',
-      Action: 'New',
-    } as EmlPredalMapa);
-    console.log('Nova dolžina: ' + this.emlMapePredalaData.length);
-  }
   public saveHandler(product: EmlPredalMapa): void {
     console.log('Save handler action - ' + product.Action);
     console.log(product);
@@ -156,30 +166,6 @@ export class AppComponent implements OnInit {
       this.emlMapePredalaData = Object.assign([], this.emlMapePredalaData);
 
       this.editDataItem = undefined;
-    }
-  }
-
-  public removeHandler(args: RemoveEvent): void {
-    console.log(args);
-    //if you want to delete new record
-    if (args.dataItem.Action === 'New') {
-      this.emlMapePredalaData.forEach((item: EmlPredalMapa, index) => {
-        if (
-          item.IdEmp === args.dataItem.IdEmp &&
-          item.IdEpm === args.dataItem.IdEpm
-        ) {
-          this.emlMapePredalaData.splice(index, 1);
-        }
-      });
-    } else {
-      args.dataItem.Action = 'Delete';
-      let index = this.emlMapePredalaData.findIndex(
-        (item) =>
-          item.IdEmp === args.dataItem.IdEmp &&
-          item.IdEpm === args.dataItem.IdEpm
-      );
-      this.emlMapePredalaData[index] = args.dataItem;
-      this.emlMapePredalaData = Object.assign([], this.emlMapePredalaData);
     }
   }
 }

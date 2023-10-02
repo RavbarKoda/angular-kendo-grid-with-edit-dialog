@@ -1,41 +1,41 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { EmlPredalMapa } from '../emlModels';
+import { EmlPredal } from '../emlModels';
 
 @Component({
-  selector: 'app-eml-predal-mapa-edit',
-  templateUrl: './eml-predal-mapa-edit.component.html',
-  styleUrls: ['./eml-predal-mapa-edit.component.css'],
+  selector: 'app-eml-predal-edit',
+  templateUrl: './eml-predal-edit.component.html',
+  styleUrls: ['./eml-predal-edit.component.css'],
 })
-export class EmlPredalMapaEditComponent {
+export class EmlPredalEditComponent {
   public active: boolean = false;
-  public editForm: FormGroup = new FormGroup({
+  public editPredalForm: FormGroup = new FormGroup({
     IdEpm: new FormControl(-1),
-    IdEmp: new FormControl(-1),
-    ImeMape: new FormControl('', Validators.required),
-    NazivMape: new FormControl('', Validators.required),
+    ImePredala: new FormControl('', Validators.required),
+    NaslovPredala: new FormControl('', Validators.required),
     Action: new FormControl('New'),
   });
 
   @Input() public isNew = false;
 
-  @Input() public emailFolderList: Array<EmlPredalMapa>;
-
-  @Input() public set model(model: EmlPredalMapa) {
+  @Input() public set model(model: EmlPredal) {
     if (model?.Action === 'None') {
       model.Action = 'Edit';
     }
-    this.editForm.reset(model);
-    // toggle the Dialog visibility
+    this.editPredalForm.reset(model);
+    console.log('Predala data - details');
+    console.log(model);
+    // toggle the visibility
     this.active = !!model;
   }
-
   @Output() cancel: EventEmitter<undefined> = new EventEmitter();
-  @Output() save: EventEmitter<EmlPredalMapa> = new EventEmitter();
+  @Output() save: EventEmitter<EmlPredal> = new EventEmitter();
+
+  constructor() {}
 
   public onSave(e: PointerEvent): void {
     e.preventDefault();
-    const data = this.editForm.value as EmlPredalMapa;
+    const data = this.editPredalForm.value as EmlPredal;
     this.save.emit(data);
     this.active = false;
   }

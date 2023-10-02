@@ -15,15 +15,18 @@ import { LabelModule } from '@progress/kendo-angular-label';
 
 import { AppComponent } from './app.component';
 import { GridEditFormComponent } from './edit-form.component';
-import { EditService } from './edit.service';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { EmlPredalMapaEditComponent } from './eml-predal-mapa-edit/eml-predal-mapa-edit.component';
+import { EmlPredalEditComponent } from './eml-predal-edit/eml-predal-edit.component';
+import { EmlPredalListComponent } from './eml-predal-list/eml-predal-list.component';
 
 @NgModule({
   declarations: [
     GridEditFormComponent,
     AppComponent,
     EmlPredalMapaEditComponent,
+    EmlPredalEditComponent,
+    EmlPredalListComponent,
   ],
   imports: [
     HttpClientModule,
@@ -37,13 +40,7 @@ import { EmlPredalMapaEditComponent } from './eml-predal-mapa-edit/eml-predal-ma
     LabelModule,
     ButtonsModule,
   ],
-  providers: [
-    {
-      deps: [HttpClient],
-      provide: EditService,
-      useFactory: (jsonp: HttpClient) => () => new EditService(jsonp),
-    },
-  ],
-  bootstrap: [AppComponent],
+  providers: [],
+  bootstrap: [EmlPredalListComponent],
 })
 export class AppModule {}
