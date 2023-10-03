@@ -14,19 +14,19 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 
 import { AppComponent } from './app.component';
-import { GridEditFormComponent } from './edit-form.component';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { EmlPredalMapaEditComponent } from './eml-predal-mapa-edit/eml-predal-mapa-edit.component';
 import { EmlPredalEditComponent } from './eml-predal-edit/eml-predal-edit.component';
 import { EmlPredalListComponent } from './eml-predal-list/eml-predal-list.component';
+import { EmlPredalMapaListComponent } from './eml-predal-mapa-list/eml-predal-mapa-list.component';
 
 @NgModule({
   declarations: [
-    GridEditFormComponent,
     AppComponent,
     EmlPredalMapaEditComponent,
     EmlPredalEditComponent,
     EmlPredalListComponent,
+    EmlPredalMapaListComponent,
   ],
   imports: [
     HttpClientModule,
@@ -41,6 +41,6 @@ import { EmlPredalListComponent } from './eml-predal-list/eml-predal-list.compon
     ButtonsModule,
   ],
   providers: [],
-  bootstrap: [EmlPredalListComponent],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
