@@ -28,7 +28,9 @@
       <kendo-formerror>Napaka: Nalov predala je obvezen</kendo-formerror>
     </kendo-formfield>
   </form>
-  <app-eml-predal-mapa-list></app-eml-predal-mapa-list>
+  <app-eml-predal-mapa-list
+    [mapePredalaList]="mapePredala"
+  ></app-eml-predal-mapa-list>
   <div>
     <button
       kendoButton

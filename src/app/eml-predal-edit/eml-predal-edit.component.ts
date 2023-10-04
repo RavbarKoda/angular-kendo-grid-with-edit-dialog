@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { EmlPredal } from '../emlModels';
+import { EmlPredal, EmlPredalMapa } from '../emlModels';
 
 @Component({
   selector: 'app-eml-predal-edit',
@@ -9,6 +9,9 @@ import { EmlPredal } from '../emlModels';
 })
 export class EmlPredalEditComponent {
   public active: boolean = false;
+
+  public mapePredala: EmlPredalMapa[];
+
   public editPredalForm: FormGroup = new FormGroup({
     IdEpm: new FormControl(-1),
     ImePredala: new FormControl('', Validators.required),
@@ -31,7 +34,22 @@ export class EmlPredalEditComponent {
   @Output() cancel: EventEmitter<undefined> = new EventEmitter();
   @Output() save: EventEmitter<EmlPredal> = new EventEmitter();
 
-  constructor() {}
+  constructor() {
+    //dummy data
+    this.mapePredala = [1, 2, 3, 4].map((x) => {
+      const item = new EmlPredalMapa();
+      item.IdEmp = x;
+      item.IdEpm = x;
+      item.ImeMape = 'Testna mapa ' + x;
+      item.NazivMape = item.ImeMape;
+      return item;
+    });
+    const itemNew = new EmlPredalMapa();
+    itemNew.ImeMape = 'Nova mapa';
+    itemNew.NazivMape = 'Nova mapa';
+    itemNew.Action = 'New';
+    this.mapePredala.push(itemNew);
+  }
 
   public onSave(e: PointerEvent): void {
     e.preventDefault();

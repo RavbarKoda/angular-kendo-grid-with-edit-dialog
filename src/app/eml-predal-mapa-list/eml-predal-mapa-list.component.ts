@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
@@ -15,37 +15,11 @@ export class EmlPredalMapaListComponent implements OnInit {
     skip: 0,
     take: 10,
   };
-  public emlMapePredalaSourceData: EmlPredalMapa[] = [
-    {
-      IdEpm: 1,
-      IdEmp: 1,
-      ImeMape: 'Test@gmail.com',
-      NazivMape: 'Test1@gmail.com',
-      Action: 'None',
-    },
-    {
-      IdEpm: 1,
-      IdEmp: 2,
-      ImeMape: 'Test@gmail.com',
-      NazivMape: 'Test2@gmail.com',
-      Action: 'None',
-    },
-    {
-      IdEpm: 1,
-      IdEmp: 3,
-      ImeMape: 'Test@gmail.com',
-      NazivMape: 'Test3@gmail.com',
-      Action: 'None',
-    },
-    {
-      IdEpm: 1,
-      IdEmp: 4,
-      ImeMape: 'Test4@gmail.com',
-      NazivMape: 'Test4@gmail.com',
-      Action: 'None',
-    },
-  ];
-  public emlMapePredalaData: EmlPredalMapa[] = [];
+
+  public emlMapePredalaSourceData: EmlPredalMapa[];
+
+  @Input()
+  public mapePredalaList: EmlPredalMapa[];
 
   public editDataItem: EmlPredalMapa;
   public isNew: boolean;
@@ -53,10 +27,7 @@ export class EmlPredalMapaListComponent implements OnInit {
   constructor() {}
 
   public ngOnInit(): void {
-    this.emlMapePredalaData = Object.assign(
-      this.emlMapePredalaData,
-      this.emlMapePredalaSourceData
-    );
+    this.emlMapePredalaSourceData = Object.assign([], this.mapePredalaList);
   }
 
   public onStateChange(state: State): void {
@@ -75,26 +46,25 @@ export class EmlPredalMapaListComponent implements OnInit {
   }
 
   public removeHandler(args: RemoveEvent): void {
-    console.log(args);
+    const removedItem: EmlPredalMapa = { ...args.dataItem }; //prekini povezavo, drugače bo seznam imel enako vrednost
     //if you want to delete new record
-    if (args.dataItem.Action === 'New') {
-      this.emlMapePredalaData.forEach((item: EmlPredalMapa, index) => {
+    if (removedItem.Action === 'New') {
+      this.mapePredalaList.forEach((item: EmlPredalMapa, index) => {
         if (
-          item.IdEmp === args.dataItem.IdEmp &&
-          item.IdEpm === args.dataItem.IdEpm
+          item.IdEmp === removedItem.IdEmp &&
+          item.IdEpm === removedItem.IdEpm
         ) {
-          this.emlMapePredalaData.splice(index, 1);
+          this.mapePredalaList.splice(index, 1);
         }
       });
     } else {
-      args.dataItem.Action = 'Delete';
-      let index = this.emlMapePredalaData.findIndex(
+      removedItem.Action = 'Delete';
+      let index = this.mapePredalaList.findIndex(
         (item) =>
-          item.IdEmp === args.dataItem.IdEmp &&
-          item.IdEpm === args.dataItem.IdEpm
+          item.IdEmp === removedItem.IdEmp && item.IdEpm === removedItem.IdEpm
       );
-      this.emlMapePredalaData[index] = args.dataItem;
-      this.emlMapePredalaData = Object.assign([], this.emlMapePredalaData);
+      this.mapePredalaList[index] = removedItem;
+      this.mapePredalaList = Object.assign([], this.mapePredalaList);
     }
   }
 
@@ -104,30 +74,24 @@ export class EmlPredalMapaListComponent implements OnInit {
 
   public saveHandler(product: EmlPredalMapa): void {
     console.log('Save handler action - ' + product.Action);
-    console.log(product);
-
     if (product.Action === 'New' && !!this.isNew) {
-      this.emlMapePredalaData.push(product);
+      this.mapePredalaList.push(product);
     } else {
       //edit mode
-      var orgiItem = this.emlMapePredalaSourceData.find(
+      var orgiItem = this.emlMapePredalaSourceData?.find(
         (x) => x.IdEpm === product.IdEpm && x.IdEmp === product.IdEmp
       );
 
       if (EmlPredalMapa.equalWithoutAction(orgiItem, product) === true) {
         product.Action = 'None';
-      } else {
-        console.log(orgiItem);
+        console.log('Revert mapo predala to orig - ' + product.Action);
         console.log(product);
       }
-
-      let index = this.emlMapePredalaData.findIndex(
+      let index = this.mapePredalaList.findIndex(
         (item) => item.IdEmp === product.IdEmp && item.IdEpm === product.IdEpm
       );
-
-      this.emlMapePredalaData[index] = product;
-      this.emlMapePredalaData = Object.assign([], this.emlMapePredalaData);
-
+      this.mapePredalaList[index] = product;
+      this.mapePredalaList = Object.assign([], this.mapePredalaList);
       this.editDataItem = undefined;
     }
   }

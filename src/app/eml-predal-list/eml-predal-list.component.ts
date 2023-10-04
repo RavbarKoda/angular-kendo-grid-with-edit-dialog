@@ -10,6 +10,7 @@ import { EmlPredal } from '../emlModels';
 })
 export class EmlPredalListComponent implements OnInit {
   public isNew: boolean = false;
+
   public emlPredalaData: EmlPredal[] = [
     {
       IdEmp: 1,
