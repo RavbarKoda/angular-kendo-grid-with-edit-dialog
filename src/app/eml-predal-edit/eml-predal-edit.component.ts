@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { EmlServiceService } from '../eml-service.service';
 import { EmlPredal, EmlPredalMapa } from '../emlModels';
 
 @Component({
@@ -50,6 +51,16 @@ export class EmlPredalEditComponent {
     itemNew.Action = 'New';
     this.mapePredala.push(itemNew);
   }
+
+  // ngOnInit() {
+  //   this.loadPredalMapeData();
+  // }
+
+  // public loadPredalMapeData() {
+  //   this.service
+  //     .getEmlPredalMapaData()
+  //     .subscribe((x) => (this.mapePredala = x));
+  // }
 
   public onSave(e: PointerEvent): void {
     e.preventDefault();

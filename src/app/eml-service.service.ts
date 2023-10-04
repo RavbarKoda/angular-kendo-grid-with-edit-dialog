@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { EmlPredal } from './emlModels';
+import { EmlPredal, EmlPredalMapa } from './emlModels';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +45,41 @@ export class EmlServiceService {
       Mape: undefined,
     },
   ];
+  public IdEpm: number = -1;
+  public IdEmp: number = -1;
+  public ImeMape: string = '';
+  public NazivMape: string = '';
+
+  private emlPredalMapaData: EmlPredalMapa[] = [
+    {
+      IdEmp: 1,
+      IdEpm: 1,
+      ImeMape: 'test1',
+      NazivMape: 'test1@gmail.com',
+      Action: 'None',
+    },
+    {
+      IdEmp: 2,
+      IdEpm: 2,
+      ImeMape: 'test2',
+      NazivMape: 'test2@gmail.com',
+      Action: 'None',
+    },
+    {
+      IdEmp: 3,
+      IdEpm: 3,
+      ImeMape: 'test3',
+      NazivMape: 'test3@gmail.com',
+      Action: 'Edit',
+    },
+    {
+      IdEmp: 4,
+      IdEpm: 4,
+      ImeMape: 'test4',
+      NazivMape: 'test4@gmail.com',
+      Action: 'New',
+    },
+  ];
 
   constructor() {}
 
@@ -74,6 +109,38 @@ export class EmlServiceService {
 
     if (index !== -1) {
       this.emlPredalData.splice(index, 1);
+    }
+    return of(null).pipe(delay(500)); // Simulate delay
+  }
+
+  getEmlPredalMapaData(): Observable<EmlPredalMapa[]> {
+    return of(this.emlPredalMapaData).pipe(delay(1000)); // Simulate delay
+  }
+
+  addEmlPredalMapa(emlPredalMapa: EmlPredalMapa): Observable<void> {
+    this.emlPredalMapaData.push(emlPredalMapa);
+    return of(null).pipe(delay(500)); // Simulate delay
+  }
+
+  editEmlPredalMapa(updatedEmlPredalMapa: EmlPredalMapa): Observable<void> {
+    const index = this.emlPredalMapaData.findIndex(
+      (e) => e.IdEmp === updatedEmlPredalMapa.IdEmp
+    );
+    if (index !== -1) {
+      this.emlPredalMapaData[index] = updatedEmlPredalMapa;
+    }
+    return of(null).pipe(delay(500)); // Simulate delay
+  }
+
+  removeEmlPredalMapa(idEmp: number, idEpm: number): Observable<void> {
+    console.log('Delete record');
+
+    const index = this.emlPredalMapaData.findIndex(
+      (e) => e.IdEmp === idEmp && e.IdEpm === idEpm
+    );
+
+    if (index !== -1) {
+      this.emlPredalMapaData.splice(index, 1);
     }
     return of(null).pipe(delay(500)); // Simulate delay
   }
