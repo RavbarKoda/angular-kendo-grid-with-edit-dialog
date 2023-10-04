@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
+import { EmlServiceService } from '../eml-service.service';
 import { EmlPredal } from '../emlModels';
 
 @Component({
@@ -11,44 +12,7 @@ import { EmlPredal } from '../emlModels';
 export class EmlPredalListComponent implements OnInit {
   public isNew: boolean = false;
 
-  public emlPredalaData: EmlPredal[] = [
-    {
-      IdEmp: 1,
-      ImePredala: 'test1',
-      NaslovPredala: 'test1@gmail.com',
-      Debug: 'DA',
-      VrstaPredala: 1,
-      Action: 'None',
-      Mape: undefined,
-    },
-    {
-      IdEmp: 2,
-      ImePredala: 'test2',
-      NaslovPredala: 'test2@gmail.com',
-      Debug: 'DA',
-      VrstaPredala: 2,
-      Action: 'None',
-      Mape: undefined,
-    },
-    {
-      IdEmp: 3,
-      ImePredala: 'test3',
-      NaslovPredala: 'test3@gmail.com',
-      Debug: 'DA',
-      VrstaPredala: 1,
-      Action: 'Edit',
-      Mape: undefined,
-    },
-    {
-      IdEmp: 4,
-      ImePredala: 'test4',
-      NaslovPredala: 'test4@gmail.com',
-      Debug: 'NE',
-      VrstaPredala: 2,
-      Action: 'New',
-      Mape: undefined,
-    },
-  ];
+  public emlPredalaData: EmlPredal[];
   public editDataItem: EmlPredal;
   public gridState: State = {
     sort: [],
@@ -56,9 +20,22 @@ export class EmlPredalListComponent implements OnInit {
     take: 10,
   };
 
-  constructor() {}
+  constructor(private service: EmlServiceService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loadData();
+  }
+
+  private loadData() {
+    this.service.getEmlPredalData().subscribe({
+      next: (data) => {
+        this.emlPredalaData = data;
+      },
+      error: (error) => {
+        console.error('Error fetching employees:', error);
+      },
+    });
+  }
 
   public onStateChange(state: State): void {
     this.gridState = state;
@@ -77,6 +54,9 @@ export class EmlPredalListComponent implements OnInit {
 
   public removeHandler(args: RemoveEvent): void {
     console.log(args);
-    //cal remove service
+    const rec = { ...args.dataItem };
+    this.service.removeEmlPredal(rec.IdEmp).subscribe((x) => {
+      this.loadData();
+    });
   }
 }

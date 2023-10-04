@@ -29,26 +29,6 @@
     </ng-template>
   </kendo-grid-command-column>
 </kendo-grid>
-
-<kendo-grid
-  [data]="emlMapePredalaSourceData"
-  [pageSize]="gridState.take"
-  [skip]="gridState.skip"
-  [sort]="gridState.sort"
-  [pageable]="true"
-  [sortable]="true"
->
-  <kendo-grid-column field="IdEmp" title="EMP" [width]="80"></kendo-grid-column>
-  <kendo-grid-column field="IdEpm" title="EPM" [width]="80"></kendo-grid-column>
-  <kendo-grid-column field="ImeMape" title="Ime Mape"></kendo-grid-column>
-  <kendo-grid-column field="NazivMape" title="NazivMape"></kendo-grid-column>
-  <kendo-grid-column
-    field="Action"
-    title="Action"
-    [width]="80"
-  ></kendo-grid-column>
-</kendo-grid>
-
 <app-eml-predal-mapa-edit
   [model]="editDataItem"
   [isNew]="isNew"
