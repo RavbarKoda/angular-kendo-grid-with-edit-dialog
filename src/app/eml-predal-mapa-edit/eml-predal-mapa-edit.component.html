@@ -14,7 +14,13 @@
         formControlName="ImeMape"
       />
       <kendo-formhint>Vnesi ime mape</kendo-formhint>
-      <kendo-formerror>Napaka: Ime mape predala je obvezno</kendo-formerror>
+      <kendo-formerror *ngIf="editForm.controls.ImeMape.errors?.required"
+        >Napaka: Ime mape predala je obvezno</kendo-formerror
+      >
+      <kendo-formerror
+        *ngIf="editForm.controls.ImeMape.errors?.notUniqueImeMape"
+        >Napaka: Ime mape že obstaja</kendo-formerror
+      >
     </kendo-formfield>
 
     <kendo-formfield>

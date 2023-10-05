@@ -21,7 +21,6 @@ export class EmlPredalMapaListComponent implements OnInit {
   @Input() mapePredalaList: EmlPredalMapa[];
   @Output() mapePredalaListChange: EventEmitter<EmlPredalMapa[]> =
     new EventEmitter();
-
   public editDataItem: EmlPredalMapa;
   public isNew: boolean;
 
