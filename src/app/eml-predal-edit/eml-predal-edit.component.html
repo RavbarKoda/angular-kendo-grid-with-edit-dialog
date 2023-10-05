@@ -1,4 +1,5 @@
 <div *ngIf="active" class="titlebar">
+  <h1>eml-predal-edit</h1>
   <div>
     {{ isNew ? 'Nov e-mail predal' : 'Uredi e-mail predal' }}
   </div>
@@ -29,7 +30,7 @@
     </kendo-formfield>
   </form>
   <app-eml-predal-mapa-list
-    [mapePredalaList]="mapePredala"
+    [(mapePredalaList)]="mapePredala"
   ></app-eml-predal-mapa-list>
   <div>
     <button

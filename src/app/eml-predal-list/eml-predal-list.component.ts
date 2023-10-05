@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 import { EmlServiceService } from '../eml-service.service';
@@ -13,6 +13,7 @@ export class EmlPredalListComponent implements OnInit {
   public isNew: boolean = false;
 
   public emlPredalaData: EmlPredal[];
+
   public editDataItem: EmlPredal;
   public gridState: State = {
     sort: [],

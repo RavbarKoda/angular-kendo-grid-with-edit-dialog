@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { AddEvent, RemoveEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
@@ -18,8 +18,9 @@ export class EmlPredalMapaListComponent implements OnInit {
 
   public emlMapePredalaSourceData: EmlPredalMapa[];
 
-  @Input()
-  public mapePredalaList: EmlPredalMapa[];
+  @Input() mapePredalaList: EmlPredalMapa[];
+  @Output() mapePredalaListChange: EventEmitter<EmlPredalMapa[]> =
+    new EventEmitter();
 
   public editDataItem: EmlPredalMapa;
   public isNew: boolean;
@@ -65,6 +66,8 @@ export class EmlPredalMapaListComponent implements OnInit {
       );
       this.mapePredalaList[index] = removedItem;
       this.mapePredalaList = Object.assign([], this.mapePredalaList);
+      //send changed list to parent component
+      this.mapePredalaListChange.emit(this.mapePredalaList);
     }
   }
 
@@ -93,6 +96,7 @@ export class EmlPredalMapaListComponent implements OnInit {
       this.mapePredalaList[index] = product;
       this.mapePredalaList = Object.assign([], this.mapePredalaList);
       this.editDataItem = undefined;
+      this.mapePredalaListChange.emit(this.mapePredalaList);
     }
   }
 }
