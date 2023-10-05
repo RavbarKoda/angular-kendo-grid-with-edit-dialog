@@ -35,32 +35,32 @@ export class EmlPredalEditComponent {
   @Output() cancel: EventEmitter<undefined> = new EventEmitter();
   @Output() save: EventEmitter<EmlPredal> = new EventEmitter();
 
-  constructor() {
-    //dummy data
-    this.mapePredala = [1, 2, 3, 4].map((x) => {
-      const item = new EmlPredalMapa();
-      item.IdEmp = x;
-      item.IdEpm = x;
-      item.ImeMape = 'Testna mapa ' + x;
-      item.NazivMape = item.ImeMape;
-      return item;
-    });
-    const itemNew = new EmlPredalMapa();
-    itemNew.ImeMape = 'Nova mapa';
-    itemNew.NazivMape = 'Nova mapa';
-    itemNew.Action = 'New';
-    this.mapePredala.push(itemNew);
+  constructor(private service: EmlServiceService) {
+    // dummy data
+    // this.mapePredala = [1, 2, 3, 4].map((x) => {
+    //   const item = new EmlPredalMapa();
+    //   item.IdEmp = x;
+    //   item.IdEpm = x;
+    //   item.ImeMape = 'Testna mapa ' + x;
+    //   item.NazivMape = item.ImeMape;
+    //   return item;
+    // });
+    // const itemNew = new EmlPredalMapa();
+    // itemNew.ImeMape = 'Nova mapa';
+    // itemNew.NazivMape = 'Nova mapa';
+    // itemNew.Action = 'New';
+    // this.mapePredala.push(itemNew);
   }
 
-  // ngOnInit() {
-  //   this.loadPredalMapeData();
-  // }
+  ngOnInit() {
+    this.loadPredalMapeData();
+  }
 
-  // public loadPredalMapeData() {
-  //   this.service
-  //     .getEmlPredalMapaData()
-  //     .subscribe((x) => (this.mapePredala = x));
-  // }
+  public loadPredalMapeData() {
+    this.service
+      .getEmlPredalMapaData()
+      .subscribe((x) => (this.mapePredala = x));
+  }
 
   public onSave(e: PointerEvent): void {
     e.preventDefault();
