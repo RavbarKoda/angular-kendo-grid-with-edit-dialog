@@ -32,25 +32,8 @@ export class EmlPredalEditComponent {
     // toggle the visibility
     this.active = !!model;
   }
-  @Output() cancel: EventEmitter<undefined> = new EventEmitter();
-  @Output() save: EventEmitter<EmlPredal> = new EventEmitter();
-
-  constructor(private service: EmlServiceService) {
-    // dummy data
-    // this.mapePredala = [1, 2, 3, 4].map((x) => {
-    //   const item = new EmlPredalMapa();
-    //   item.IdEmp = x;
-    //   item.IdEpm = x;
-    //   item.ImeMape = 'Testna mapa ' + x;
-    //   item.NazivMape = item.ImeMape;
-    //   return item;
-    // });
-    // const itemNew = new EmlPredalMapa();
-    // itemNew.ImeMape = 'Nova mapa';
-    // itemNew.NazivMape = 'Nova mapa';
-    // itemNew.Action = 'New';
-    // this.mapePredala.push(itemNew);
-  }
+  @Output() cancel: EventEmitter<string> = new EventEmitter();
+  constructor(private service: EmlServiceService) {}
 
   ngOnInit() {
     this.loadPredalMapeData();
@@ -65,16 +48,16 @@ export class EmlPredalEditComponent {
   public onSave(e: PointerEvent): void {
     e.preventDefault();
     const data = this.editPredalForm.value as EmlPredal;
-    this.save.emit(data);
+    this.closeForm('save');
     this.active = false;
   }
 
   public onCancel(e: PointerEvent): void {
     e.preventDefault();
-    this.closeForm();
+    this.closeForm('cancel');
   }
 
-  public closeForm(): void {
+  public closeForm(action: string): void {
     this.active = false;
     this.cancel.emit();
   }
